@@ -8,30 +8,34 @@
  */
 
 #include <iostream>
-#include <cstring>
+#include <algorithm>
 
 using namespace std;
 
-bool isAnagram(string word1, string word2)
-{
-    if (word1 == word2 || word1.size() != word2.size())
+bool isAnagram(string word1, string word2){
+  
+  if (word1 != word2 && word1.size() == word2.size())
+  {
+    int wordSize = word1.size();
+    int check = 0;
+    transform(word2.begin(), word2.end(), word2.begin(),
+      [](unsigned char c){ return std::tolower(c); });
+
+    for (int i = 0; i <= (wordSize - 1); i++)
     {
-        return false;
+      char letter = tolower(word1[i]);
+      check = count((word2.begin()), (word2.end()), letter) + check;
     }
-    int check1 = 0, check2 = 0;
-    for (int i = 0; i <= word1.size() - 1; i++)
-    {
-        check1 += tolower(word1[i]);
-        check2 += tolower(word2[i]);
+    if (check == wordSize){
+      return true;
+    }else{
+     return false;
     }
-    if (check1 == check2)
-    {
-        return true;
-    }
-    return false;
+  }
+  return false;
 }
 
-int main ()
-{
-    cout<<isAnagram("mar", "RAM");
+int main() {
+  cout<<isAnagram("La Tele Letal", "La LetalTele");
+  return 0;
 }
